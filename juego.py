@@ -10,7 +10,6 @@ from tower2 import Tower2
 from tower3 import Tower3
 import time
 import random
-from menu import Menu
 
 pygame.init()
 lifes_image = pygame.transform.scale(pygame.image.load(os.path.join("heart-icon2.png")), (40,40))
