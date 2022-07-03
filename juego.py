@@ -14,7 +14,7 @@ import random
 pygame.init()
 lifes_image = pygame.transform.scale(pygame.image.load(os.path.join("heart-icon2.png")), (40,40))
 gems_image = pygame.transform.scale(pygame.image.load(os.path.join("gemas.png")), (40,40))
-background_menu = pygame.transform.scale(pygame.image.load(os.path.join("menu_madera_2.png")), (275, 380))
+background_menu = pygame.transform.scale(pygame.image.load(os.path.join("wood_menu.png")), (200, 350))
 
 
 class Juego:
@@ -113,7 +113,7 @@ class Juego:
 
         #dibujar menu
         menu = self.menu
-        self.win.blit(menu, (930, 0))
+        self.win.blit(menu, (980, 0))
 
 
         pygame.display.update()

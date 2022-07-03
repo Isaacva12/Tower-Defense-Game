@@ -1,7 +1,13 @@
 import pygame
 import os
+pygame.font.init()
+
+gem_price = pygame.image.load(os.path.join("gemas.png"))
 
 class Button:
+    """
+    Botones para los menus
+    """
     def __init__(self,x,y, image, name):
         self.image = image
         self.name = name
@@ -30,19 +36,19 @@ class Menu:
     """
     Menu para seleccionar las torres
     """
-    def __init__(self, x, y, image):
+    def __init__(self, x, y, image, tower_cost):
         self.x = x
         self.y = y
         self.width = image.get_width()
         self.height = image.get_height()
-        self.towers_name = []
         self.towers = 0
         self.buttons = []
         self.background = image
         self.upgrade = 0
         self.image_upgrade = image
-        self.towers_cost = []
+        self.towers_cost = tower_cost
         self.upgrade_cost = []
+        self.text_cost = pygame.font.Font("freesansbold.ttf", 32)
 
     def draw(self, win):
         """
@@ -53,6 +59,8 @@ class Menu:
         win.blit(self.background, (self.x, self.y))
         for i in self.buttons:
             i.draw(win)
+
+
 
     def add_buttons_towers(self, image, name):
         """

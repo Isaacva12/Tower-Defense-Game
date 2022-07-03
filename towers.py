@@ -17,7 +17,7 @@ class Towers():
         self.price = [0,0,0]
         self.level = 1
         self.selected = False
-        self.menu = Menu(self.x - 63, self.y + 45, upgrade_menu)
+        self.menu = Menu(self.x - 63, self.y + 45, upgrade_menu, [1000, 3000, 8000])
         self.menu.add_buttons_upgrade(upgrade_button, "Upgrade")
         self.image = None
         self.images = []
