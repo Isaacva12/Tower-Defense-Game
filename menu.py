@@ -130,7 +130,19 @@ class BuyMenu(Menu):
         :return: None
         """
         self.towers += 1
-        dif_y = self.height/self.towers/3
-        button_y = self.towers * dif_y - image.get_height()/3
-        button_x = self.x + self.width/3 - image.get_width()/3
+        button_y = self.y + 10 + (self.towers-1)*80
+        button_x = self.x + 20
         self.buttons.append(BuyButton(button_x, button_y, image, name, cost))
+
+    def draw(self, win):
+        """
+        crea el menu y botones
+        :param win: surface
+        :return: None
+        """
+        win.blit(self.background, (self.x, self.y))
+        for i in self.buttons:
+            i.draw(win)
+            win.blit(gem, (i.x + i.width + 15, i.y + 12))
+            text = self.text_cost.render(str(i.cost), 1, (255, 255, 255))
+            win.blit(text, (i.x + i.width + 8, i.y + gem.get_height() + 15))

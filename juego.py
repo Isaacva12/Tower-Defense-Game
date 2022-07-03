@@ -15,7 +15,10 @@ import random
 pygame.init()
 lifes_image = pygame.transform.scale(pygame.image.load(os.path.join("heart-icon2.png")), (40,40))
 gems_image = pygame.transform.scale(pygame.image.load(os.path.join("gemas.png")), (40,40))
-background_menu = pygame.transform.scale(pygame.image.load(os.path.join("wood_menu.png")), (150, 350))
+background_menu = pygame.transform.scale(pygame.image.load(os.path.join("wood_menu.png")), (150, 250))
+buy_tower1 = pygame.transform.scale(pygame.image.load(os.path.join("towers_game", "mine.png")), (70, 70))
+buy_tower2 = pygame.transform.scale(pygame.image.load(os.path.join("towers_game", "fire.png")), (70, 70))
+buy_tower3 = pygame.transform.scale(pygame.image.load(os.path.join("towers_game", "stone.png")), (70, 70))
 
 
 class Juego:
@@ -29,6 +32,9 @@ class Juego:
         self.gems = 800
         self.background = pygame.image.load(os.path.join("mapa1.jpg"))
         self.menu = BuyMenu(1050, 0, background_menu)
+        self.menu.add_buttons_towers(buy_tower1, "buy_tower1", 500)
+        self.menu.add_buttons_towers(buy_tower2, "buy_tower2", 600)
+        self.menu.add_buttons_towers(buy_tower3, "buy_tower3", 800)
         self.timer = time.time()
         self.text = pygame.font.Font("freesansbold.ttf", 32)
         self.selected_tower = None
