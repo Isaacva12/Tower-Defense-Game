@@ -16,8 +16,9 @@ class Towers():
         self.sell_price = [0,0,0]
         self.price = [0,0,0]
         self.level = 1
+        self.max_level = 3
         self.selected = False
-        self.menu = Menu(self.x - 63, self.y + 45, upgrade_menu, [1000, 3000, 8000])
+        self.menu = Menu(self, self.x - 63, self.y + 45, upgrade_menu, [1000, 3000, "MAX"])
         self.menu.add_buttons_upgrade(upgrade_button, "Upgrade")
         self.image = None
         self.images = []
@@ -105,8 +106,10 @@ class Towers():
         subir de nivel la torre
         :return: None
         """
-        self.level += 1
-        self.damage += 1
+        if self.level < self.max_level:
+            self.level += 1
+            self.damage += 1
+            self.range += 50
 
     def get_upgrade_cost(self):
         """
