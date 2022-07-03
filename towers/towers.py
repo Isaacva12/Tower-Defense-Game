@@ -1,7 +1,7 @@
 import pygame
 import os
 import math
-from menu.menu import Menu
+from menus.in_game_menu import Menu
 
 upgrade_menu = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/upgrade_menu.png")), (125, 60))
 upgrade_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/upgrade_btn.png")), (50, 50))
