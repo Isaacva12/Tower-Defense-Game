@@ -14,6 +14,7 @@ for x in range(20):
 class Enemy1(Enemies):
     def __init__(self):
         super().__init__()
+        self.gems = 4
         self.images = images[:]
         self.max_health = 2
         self.health = self.max_health

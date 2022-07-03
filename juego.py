@@ -8,13 +8,14 @@ from enemy3 import Enemy3
 from tower1 import Tower1
 from tower2 import Tower2
 from tower3 import Tower3
+from menu import BuyMenu
 import time
 import random
 
 pygame.init()
 lifes_image = pygame.transform.scale(pygame.image.load(os.path.join("heart-icon2.png")), (40,40))
 gems_image = pygame.transform.scale(pygame.image.load(os.path.join("gemas.png")), (40,40))
-background_menu = pygame.transform.scale(pygame.image.load(os.path.join("wood_menu.png")), (200, 350))
+background_menu = pygame.transform.scale(pygame.image.load(os.path.join("wood_menu.png")), (150, 350))
 
 
 class Juego:
@@ -25,9 +26,9 @@ class Juego:
         self.enemies = [Enemy3()]
         self.towers = [Tower1(250,300), Tower2(500,250), Tower3(850, 500)]
         self.lifes = 50
-        self.gems = 0
+        self.gems = 800
         self.background = pygame.image.load(os.path.join("mapa1.jpg"))
-        self.menu = background_menu
+        self.menu = BuyMenu(1050, 0, background_menu)
         self.timer = time.time()
         self.text = pygame.font.Font("freesansbold.ttf", 32)
         self.selected_tower = None
@@ -54,7 +55,10 @@ class Juego:
                         button_clicked = self.selected_tower.menu.selected(pos[0], pos[1])
                         if button_clicked:
                             if button_clicked == "Upgrade":
-                                self.selected_tower.upgrade()
+                                cost = self.selected_tower.get_upgrade_cost()
+                                if self.gems >= cost:
+                                    self.gems -= cost
+                                    self.selected_tower.upgrade()
                     if not(button_clicked):
                         for tower in self.towers:
                             if tower.click(pos[0], pos[1]):
@@ -76,7 +80,7 @@ class Juego:
 
             #terminar loop torres
             for tower in self.towers:
-                tower.attack(self.enemies)
+                self.gems += tower.attack(self.enemies)
 
             #si se pierde
             if self.lifes <= 0:
@@ -113,9 +117,7 @@ class Juego:
         self.win.blit(value_gems, (170, 18))
 
         #dibujar menu
-        menu = self.menu
-        self.win.blit(menu, (980, 0))
-
+        self.menu.draw(self.win)
 
         pygame.display.update()
 

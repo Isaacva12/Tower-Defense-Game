@@ -76,6 +76,7 @@ class Towers():
         :param enemies: lista de enemigos
         :return: None
         """
+        gems = 0
         self.inRange = False
         enemy_closest = []
         for enemy in enemies:
@@ -92,7 +93,9 @@ class Towers():
             first_en = enemy_closest[0]
             if self.animation_count == 6:
                 if first_en.hit(self.damage) == True:
+                    gems = first_en.gems
                     enemies.remove(first_en)
+        return gems
 
     def sell(self):
         """
@@ -116,7 +119,7 @@ class Towers():
         devuelve el precio de subir de nivek, 0 si no se puede subir más de nivel
         :return: int
         """
-        return self.price[self.level - 1]
+        return self.menu.get_object_cost()
 
     def move(self, x, y):
         self.x = x
