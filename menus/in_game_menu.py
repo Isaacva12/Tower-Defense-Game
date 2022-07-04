@@ -148,6 +148,17 @@ class BuyMenu(Menu):
         button_x = self.x + 20
         self.buttons.append(BuyButton(button_x, button_y, image, name, cost))
 
+    def get_tower_cost(self, name):
+        """
+        da el precio de la torre
+        :param name: str
+        :return: int
+        """
+        for button in self.buttons:
+            if button.name == name:
+                return button.cost
+        return -1
+
     def draw(self, win):
         """
         crea el menu y botones

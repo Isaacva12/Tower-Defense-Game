@@ -76,7 +76,10 @@ class Juego:
                         # mirar si se compra una torre
                         button_buy = self.menu.selected(pos[0], pos[1])
                         if button_buy:
-                            self.add_towers(button_buy)
+                            cost_tower = self.menu.get_tower_cost(button_buy)
+                            if self.gems >= cost_tower:
+                                self.gems -= cost_tower
+                                self.add_towers(button_buy)
 
                         # mirar si se clica una torre
                         button_clicked = None
