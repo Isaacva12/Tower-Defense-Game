@@ -92,7 +92,7 @@ class Towers():
         enemy_closest.sort(key=lambda x: x.x)
         if len(enemy_closest) > 0:
             first_en = enemy_closest[0]
-            if self.animation_count == 6:
+            if self.animation_count == 25:
                 if first_en.hit(self.damage) == True:
                     gems = first_en.gems
                     enemies.remove(first_en)

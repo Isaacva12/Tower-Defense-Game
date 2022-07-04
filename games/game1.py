@@ -21,13 +21,15 @@ buy_tower2 = pygame.transform.scale(pygame.image.load(os.path.join("towers/2/fir
 buy_tower3 = pygame.transform.scale(pygame.image.load(os.path.join("towers/3/stone_002.png")), (70, 70))
 
 towers_names = ["Tower1", "Tower2", "Tower3"]
+# las oleadas de enemigos se definen por numero de enemigos
+waves = [[25, 0, 0], [50, 0, 0], [75, 50, 0], [100, 75, 50], [200, 100, 150]]
 
 class Juego:
     def __init__(self):
         self.width = 1200
         self.height = 650
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemies = [Enemy3()]
+        self.enemies = []
         self.towers = [Tower1(250,300), Tower2(500,250), Tower3(850, 500)]
         self.lifes = 50
         self.gems = 800
@@ -40,19 +42,37 @@ class Juego:
         self.text = pygame.font.Font("freesansbold.ttf", 32)
         self.selected_tower = None
         self.move_tower = None
+        self.wave = 0
+        self.current_wave = waves[self.wave][:]
+        self.pause = False
 
-        #self.clicks = [] #se puede borrar, era para crear el camino de los enemmigos
-
+    def generate_waves(self):
+        """
+        genera las oleadas de enemigos
+        :return: enemy
+        """
+        if sum(self.current_wave) == 0:
+            self.wave += 1
+            self.current_wave = waves[self.wave]
+            self.pause = True
+        else:
+            wave_enemies = [Enemy1(), Enemy2(), Enemy3()]
+            for e in range(len(self.current_wave)):
+                if self.current_wave[e] != 0:
+                    self.enemies.append(wave_enemies[e])
+                    self.current_wave[e] = self.current_wave[e] - 1
+                    break
     def run(self):
         run = True
         clock = pygame.time.Clock()
         while run:
             clock.tick(60)
 
+            if self.pause == False:
             # enemigos
-            if time.time() - self.timer >= random.randrange(1,5)/2:
-                self.timer = time.time()
-                self.enemies.append(random.choice([Enemy1(), Enemy2(), Enemy3()]))
+                if time.time() - self.timer >= random.randrange(1,5)/2:
+                    self.timer = time.time()
+                    self.generate_waves()
 
             pos = pygame.mouse.get_pos()
 
