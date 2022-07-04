@@ -54,9 +54,12 @@ class Juego:
         :return: enemy
         """
         if sum(self.current_wave) == 0:
-            self.wave += 1
-            self.current_wave = waves[self.wave]
-            self.pause = True
+
+            if len(self.enemies) == 0:
+                self.wave += 1
+                self.current_wave = waves[self.wave]
+                self.pause = True
+                self.PlayButton.paused = self.pause
         else:
             wave_enemies = [Enemy1(), Enemy2(), Enemy3()]
             for e in range(len(self.current_wave)):
@@ -87,14 +90,14 @@ class Juego:
                 if event.type == pygame.QUIT:
                     run = False
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONUP:
                     # escoger y mover torres
                     if self.move_tower:
                         if self.move_tower.name in towers_names:
                             self.towers.append(self.move_tower)
                         self.move_tower.moving = False
                         self.move_tower = None
-                    else:
+                    else: 
                         #mirar si esta en play o pausa
                         if self.play_button.click(pos[0], pos[1]):
                             self.pause = not(self.pause)

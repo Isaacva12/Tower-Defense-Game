@@ -28,9 +28,6 @@ class Enemies():
         :return: None
         """
         self.image = self.images[self.animation_count]
-        self.animation_count += 1
-        if self.animation_count >= len(self.images):
-            self.animation_count = 0
 
         win.blit(self.image, (self.x - 30, self.y - 55))
         self.health_bar(win)
@@ -65,6 +62,11 @@ class Enemies():
         Mover los enemigos
         :return: None
         """
+        self.animation_count += 1
+        if self.animation_count >= len(self.images):
+            self.animation_count = 0
+
+
         x1,y1 = self.path[self.init_path]
         if self.init_path +1 >= len(self.path):
             x2, y2 = (-10, 3)
