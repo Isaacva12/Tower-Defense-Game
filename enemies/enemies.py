@@ -34,7 +34,6 @@ class Enemies():
 
         win.blit(self.image, (self.x - 30, self.y - 55))
         self.health_bar(win)
-        self.move()
 
     def health_bar(self, win):
         """

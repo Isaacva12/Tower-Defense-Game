@@ -8,7 +8,7 @@ from enemies.enemy3 import Enemy3
 from towers.tower1 import Tower1
 from towers.tower2 import Tower2
 from towers.tower3 import Tower3
-from menus.in_game_menu import BuyMenu
+from menus.in_game_menu import BuyMenu, PlayButton
 import time
 import random
 
@@ -19,7 +19,8 @@ background_menu = pygame.transform.scale(pygame.image.load(os.path.join("buttons
 buy_tower1 = pygame.transform.scale(pygame.image.load(os.path.join("towers/1/shoot_002.png")), (70, 70))
 buy_tower2 = pygame.transform.scale(pygame.image.load(os.path.join("towers/2/fire_002.png")), (70, 70))
 buy_tower3 = pygame.transform.scale(pygame.image.load(os.path.join("towers/3/stone_002.png")), (70, 70))
-
+play_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/play.png")), (70, 70))
+pause_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/pause.png")), (70, 70))
 towers_names = ["Tower1", "Tower2", "Tower3"]
 # las oleadas de enemigos se definen por numero de enemigos
 waves = [[25, 0, 0], [50, 0, 0], [75, 50, 0], [100, 75, 50], [200, 100, 150]]
@@ -30,7 +31,7 @@ class Juego:
         self.height = 650
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemies = []
-        self.towers = [Tower1(250,300), Tower2(500,250), Tower3(850, 500)]
+        self.towers = []
         self.lifes = 50
         self.gems = 800
         self.background = pygame.image.load(os.path.join("maps/mapa1.jpg"))
@@ -44,7 +45,8 @@ class Juego:
         self.move_tower = None
         self.wave = 0
         self.current_wave = waves[self.wave][:]
-        self.pause = False
+        self.pause = True
+        self.play_button = PlayButton(play_button, pause_button, 10, 575)
 
     def generate_waves(self):
         """
@@ -69,7 +71,7 @@ class Juego:
             clock.tick(60)
 
             if self.pause == False:
-            # enemigos
+            # oleadas de enemigos
                 if time.time() - self.timer >= random.randrange(1,5)/2:
                     self.timer = time.time()
                     self.generate_waves()
@@ -93,6 +95,11 @@ class Juego:
                         self.move_tower.moving = False
                         self.move_tower = None
                     else:
+                        #mirar si esta en play o pausa
+                        if self.play_button.click(pos[0], pos[1]):
+                            self.pause = not(self.pause)
+                            self.play_button.paused = self.pause
+
                         # mirar si se compra una torre
                         button_buy = self.menu.selected(pos[0], pos[1])
                         if button_buy:
@@ -118,26 +125,25 @@ class Juego:
                                     self.selected_tower = tower
                                 else:
                                     tower.selected = False
-                 #   self.clicks.append(pos)
-                  #  print(self.clicks)  #se puuede borrar es para crear camino enemigos
+            if not(self.pause):
+                #terminar loop y eliminar enemigos y vidas
+                to_del = []
+                for enemy in self.enemies:
+                    enemy.move()
+                    if enemy.y < -15:
+                        to_del.append(enemy)
+                for d in to_del:
+                    self.lifes -= 1
+                    self.enemies.remove(d)
 
-            #terminar loop y eliminar enemigos y vidas
-            to_del = []
-            for enemy in self.enemies:
-                if enemy.y < -15:
-                    to_del.append(enemy)
-            for d in to_del:
-                self.lifes -= 1
-                self.enemies.remove(d)
+                #terminar loop torres
+                for tower in self.towers:
+                    self.gems += tower.attack(self.enemies)
 
-            #terminar loop torres
-            for tower in self.towers:
-                self.gems += tower.attack(self.enemies)
-
-            #si se pierde
-            if self.lifes <= 0:
-                print("GAME OVER")
-                run = False
+                #si se pierde
+                if self.lifes <= 0:
+                    print("GAME OVER")
+                    run = False
 
             self.draw()
 
@@ -174,6 +180,9 @@ class Juego:
 
         #dibujar menu
         self.menu.draw(self.win)
+
+        # dibujar boton jugar
+        self.play_button.draw(self.win)
 
         pygame.display.update()
 

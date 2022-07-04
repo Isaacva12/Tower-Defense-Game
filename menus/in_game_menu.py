@@ -49,6 +49,22 @@ class BuyButton(Button):
         self.height = self.image.get_height()
         self.cost = cost
 
+class PlayButton(Button):
+    def __init__(self, play_image, pause_image, x, y):
+        self.play = play_image
+        self.pause = pause_image
+        self.x = x
+        self.y = y
+        self.width = self.play.get_width()
+        self.height = self.play.get_height()
+        self.paused = True
+
+    def draw(self, win):
+        if self.paused:
+            win.blit(self.play, (self.x, self.y))
+        else:
+            win.blit(self.pause, (self.x, self.y))
+
 class Menu:
     """
     Menu para seleccionar las torres
