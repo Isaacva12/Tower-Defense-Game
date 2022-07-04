@@ -16,6 +16,7 @@ class Tower3(Towers):
         self.images = images[:]
         self.range = 150
         self.damage = 3
+        self.name = "Tower3"
 
 
 

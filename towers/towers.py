@@ -26,6 +26,7 @@ class Towers():
         self.inRange = False
         self.range = 0
         self.damage = 0
+        self.moving = False
 
 
     def click(self,x,y):
@@ -49,7 +50,7 @@ class Towers():
         self.range = r
 
     def draw(self, win):
-        if self.inRange:
+        if self.inRange and not self.moving:
             self.animation_count += 1
             if self.animation_count >= len(self.images) * 5:
                 self.animation_count = 0
@@ -122,5 +123,14 @@ class Towers():
         return self.menu.get_object_cost()
 
     def move(self, x, y):
+        """
+        mueve las torres
+        :param x: int
+        :param y: int
+        :return: None
+        """
         self.x = x
         self.y = y
+        self.menu.x = x
+        self.menu.y = y
+        self.menu.update()

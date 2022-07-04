@@ -8,11 +8,12 @@ class Button:
     """
     Botones para los menus de subir nivel
     """
-    def __init__(self,x,y, image, name):
+    def __init__(self, menu, image, name):
         self.image = image
         self.name = name
-        self.x = x
-        self.y = y
+        self.x = menu.x + 10
+        self.y = menu.y + 5
+        self.menu = menu
         self.width = self.image.get_width()
         self.height = self.image.get_height()
 
@@ -31,14 +32,22 @@ class Button:
     def draw(self, win):
         win.blit(self.image, (self.x, self.y))
 
+    def update(self):
+        self.x = self.menu.x + 10
+        self.y = self.menu.y + 5
+
 class BuyButton(Button):
     """
     Botones para menu de compra
     """
     def __init__(self,x,y, image, name, cost):
-        super().__init__(x,y,image,name)
+        self.image = image
+        self.name = name
+        self.x = x
+        self.y = y
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
         self.cost = cost
-
 
 class Menu:
     """
@@ -88,10 +97,7 @@ class Menu:
         :return: None
         """
         self.upgrade += 1
-        dif_x = self.width/self.upgrade/2
-        button_x = self.x + self.upgrade * dif_x - image_up.get_width()
-        button_y = self.y + self.height/2 - image_up.get_height()/2
-        self.buttons.append(Button(button_x, button_y, image_up, name))
+        self.buttons.append(Button(self, image_up, name))
 
     def selected(self, X, Y):
         """
@@ -104,6 +110,14 @@ class Menu:
             if button.click(X,Y):
                 return button.name
         return None
+
+    def update(self):
+        """
+        carga el menu de las torres que se colocan
+        :return: None
+        """
+        for button in self.buttons:
+           button.update()
 
 class BuyMenu(Menu):
     """

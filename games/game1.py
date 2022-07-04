@@ -20,6 +20,7 @@ buy_tower1 = pygame.transform.scale(pygame.image.load(os.path.join("towers/1/sho
 buy_tower2 = pygame.transform.scale(pygame.image.load(os.path.join("towers/2/fire_002.png")), (70, 70))
 buy_tower3 = pygame.transform.scale(pygame.image.load(os.path.join("towers/3/stone_002.png")), (70, 70))
 
+towers_names = ["Tower1", "Tower2", "Tower3"]
 
 class Juego:
     def __init__(self):
@@ -38,6 +39,7 @@ class Juego:
         self.timer = time.time()
         self.text = pygame.font.Font("freesansbold.ttf", 32)
         self.selected_tower = None
+        self.move_tower = None
 
         #self.clicks = [] #se puede borrar, era para crear el camino de los enemmigos
 
@@ -45,33 +47,54 @@ class Juego:
         run = True
         clock = pygame.time.Clock()
         while run:
+            clock.tick(60)
+
+            # enemigos
             if time.time() - self.timer >= random.randrange(1,5)/2:
                 self.timer = time.time()
                 self.enemies.append(random.choice([Enemy1(), Enemy2(), Enemy3()]))
-            clock.tick(60)
+
+            pos = pygame.mouse.get_pos()
+
+            # mover torres
+            if self.move_tower:
+                self.move_tower.move(pos[0], pos[1])
+
+            # main
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
 
-                pos = pygame.mouse.get_pos()
-
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    button_clicked = None
-                    if self.selected_tower:
-                        button_clicked = self.selected_tower.menu.selected(pos[0], pos[1])
-                        if button_clicked:
-                            if button_clicked == "Upgrade":
-                                cost = self.selected_tower.get_upgrade_cost()
-                                if self.gems >= cost:
-                                    self.gems -= cost
-                                    self.selected_tower.upgrade()
-                    if not(button_clicked):
-                        for tower in self.towers:
-                            if tower.click(pos[0], pos[1]):
-                                tower.selected = True
-                                self.selected_tower = tower
-                            else:
-                                tower.selected = False
+                    # escoger y mover torres
+                    if self.move_tower:
+                        if self.move_tower.name in towers_names:
+                            self.towers.append(self.move_tower)
+                        self.move_tower.moving = False
+                        self.move_tower = None
+                    else:
+                        # mirar si se compra una torre
+                        button_buy = self.menu.selected(pos[0], pos[1])
+                        if button_buy:
+                            self.add_towers(button_buy)
+
+                        # mirar si se clica una torre
+                        button_clicked = None
+                        if self.selected_tower:
+                            button_clicked = self.selected_tower.menu.selected(pos[0], pos[1])
+                            if button_clicked:
+                                if button_clicked == "Upgrade":
+                                    cost = self.selected_tower.get_upgrade_cost()
+                                    if self.gems >= cost:
+                                        self.gems -= cost
+                                        self.selected_tower.upgrade()
+                        if not(button_clicked):
+                            for tower in self.towers:
+                                if tower.click(pos[0], pos[1]):
+                                    tower.selected = True
+                                    self.selected_tower = tower
+                                else:
+                                    tower.selected = False
                  #   self.clicks.append(pos)
                   #  print(self.clicks)  #se puuede borrar es para crear camino enemigos
 
@@ -122,14 +145,26 @@ class Juego:
         value_gems = self.text.render(str(self.gems), 1, (255, 255, 255))
         self.win.blit(value_gems, (170, 18))
 
+        #dibujar torre moviendose
+        if self.move_tower:
+            self.move_tower.draw(self.win)
+
         #dibujar menu
         self.menu.draw(self.win)
 
         pygame.display.update()
 
-    def towers_menu(self):
-        pass
+    def add_towers(self, name):
+        x,y = pygame.mouse.get_pos()
+        list_names = ["buy_tower1", "buy_tower2", "buy_tower3"]
+        list_towers = [Tower1(x,y), Tower2(x,y), Tower3(x,y)]
 
+        try:
+            twr = list_towers[list_names.index(name)]
+            self.move_tower = twr
+            twr.moving = True
+        except Exception as e:
+            print(str(e) + "NOT VALID")
 
 
 #j = Juego()
