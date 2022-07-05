@@ -11,8 +11,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from games.game1 import Juego
 
+
+
 class Ui_TowerDefenseAjustesPartida(object):
+
+def __init__(self):
+        self.speed = speed
+        self.difficulty = difficulty
+        self.map = mapa
+        self.mode = mode
+
     def setupUi(self, MainWindow):
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(580, 520)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -49,14 +59,14 @@ class Ui_TowerDefenseAjustesPartida(object):
         font.setWeight(75)
         self.label_velocidad.setFont(font)
         self.label_velocidad.setObjectName("label_velocidad")
-        self.label_agresividad = QtWidgets.QLabel(self.centralwidget)
-        self.label_agresividad.setGeometry(QtCore.QRect(190, 190, 61, 20))
+        self.label_dificultad = QtWidgets.QLabel(self.centralwidget)
+        self.label_dificultad.setGeometry(QtCore.QRect(190, 190, 61, 20))
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
-        self.label_agresividad.setFont(font)
-        self.label_agresividad.setObjectName("label_agresividad")
+        self.label_dificultad.setFont(font)
+        self.label_dificultad.setObjectName("label_dificultad")
         self.backButton = QtWidgets.QPushButton(self.centralwidget)
         self.backButton.setGeometry(QtCore.QRect(500, 410, 41, 41))
         self.backButton.setStyleSheet("image: url(:/images/go_back.png);")
@@ -80,12 +90,12 @@ class Ui_TowerDefenseAjustesPartida(object):
         font.setWeight(75)
         self.label_velocidad_2.setFont(font)
         self.label_velocidad_2.setObjectName("label_velocidad_2")
-        self.agresividadBox = QtWidgets.QComboBox(self.centralwidget)
-        self.agresividadBox.setGeometry(QtCore.QRect(270, 190, 101, 20))
-        self.agresividadBox.setObjectName("agresividadBox")
-        self.agresividadBox.addItem("")
-        self.agresividadBox.addItem("")
-        self.agresividadBox.addItem("")
+        self.dificultadbox = QtWidgets.QComboBox(self.centralwidget)
+        self.dificultadbox.setGeometry(QtCore.QRect(270, 190, 101, 20))
+        self.dificultadbox.setObjectName("dificultadbox")
+        self.dificultadbox.addItem("")
+        self.dificultadbox.addItem("")
+        self.dificultadbox.addItem("")
         self.guardar_config_button = QtWidgets.QPushButton(self.centralwidget)
         self.guardar_config_button.setGeometry(QtCore.QRect(240, 300, 131, 41))
         font = QtGui.QFont()
@@ -128,13 +138,22 @@ class Ui_TowerDefenseAjustesPartida(object):
         #Button action
         self.guardar_config_button.clicked.connect(self.save_settings)
         self.backButton.clicked.connect(lambda:self.closescr(MainWindow))
+        
+
 
     def closescr (self, Form):
         Form.hide()
+        print(self.speed)
 
 
     def save_settings(self):
-        pass
+
+        self.speed = self.velocidadBox.currentText()
+        print(self.speed)
+        self.difficulty = self.dificultadbox.currentText()
+        self.map = self.pantallaBox.currentText()
+        self.mode = self.pantallaBox_2.currentText()
+
 
 
     def retranslateUi(self, MainWindow):
@@ -143,14 +162,14 @@ class Ui_TowerDefenseAjustesPartida(object):
         self.tituloajustes.setText(_translate("MainWindow", "AJUSTES PARTIDA"))
         self.label_pantalla.setText(_translate("MainWindow", "Mapa"))
         self.label_velocidad.setText(_translate("MainWindow", "Velocidad"))
-        self.label_agresividad.setText(_translate("MainWindow", "Dificultad"))
-        self.pantallaBox.setItemText(0, _translate("MainWindow", "Arena 1"))
+        self.label_dificultad.setText(_translate("MainWindow", "Dificultad"))
+        self.pantallaBox.setItemText(0, _translate("MainWindow", "Arena_1"))
         self.velocidadBox.setItemText(0, _translate("MainWindow", "Media"))
-        self.velocidadBox.setItemText(1, _translate("MainWindow", "Rápida"))
+        self.velocidadBox.setItemText(1, _translate("MainWindow", "Rapida"))
         self.label_velocidad_2.setText(_translate("MainWindow", "Configuración de la partida"))
-        self.agresividadBox.setItemText(0, _translate("MainWindow", "Media"))
-        self.agresividadBox.setItemText(1, _translate("MainWindow", "Alta"))
-        self.agresividadBox.setItemText(2, _translate("MainWindow", "Experto"))
+        self.dificultadbox.setItemText(0, _translate("MainWindow", "Media"))
+        self.dificultadbox.setItemText(1, _translate("MainWindow", "Alta"))
+        self.dificultadbox.setItemText(2, _translate("MainWindow", "Experto"))
         self.guardar_config_button.setText(_translate("MainWindow", "GUARDAR"))
         self.label_pantalla_2.setText(_translate("MainWindow", "Modo"))
         self.pantallaBox_2.setItemText(0, _translate("MainWindow", "Supervivencia"))

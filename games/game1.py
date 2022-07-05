@@ -31,21 +31,19 @@ pygame.mixer.music.load(os.path.join("buttons_symbols", "music1.mp3"))
 
 towers_names = ["Tower1", "Tower2", "Tower3"]
 areas_permitidas = [(27, 259), (266, 498), (446, 403), (670, 518), (653, 465), (911, 525), (35, 68), (606, 153), (414, 130), (588, 267), (740, 21), (783, 84), (745, 286), (1169, 390), (1027, 348), (1169, 603)]
+
 # las oleadas de enemigos se definen por numero de enemigos
-
-
 waves = [[25, 0, 0], [50, 0, 0], [75, 50, 0], [100, 75, 50], [200, 100, 150]]
 
 class Juego:
-    #def __init__ (self, speed, difficulty, map, mode):
-    def __init__(self):
+    def __init__ (self, speed, difficulty):
+
+        print (speed, difficulty)
         self.width = 1200
         self.height = 650
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemies = []
         self.towers = []
-        self.lifes = 50
-        self.gems = 11000
         self.background = pygame.image.load(os.path.join("maps/mapa1.jpg"))
         self.menu = BuyMenu(1050, 0, background_menu)
         self.menu.add_buttons_towers(buy_tower1, "buy_tower1", 500)
@@ -62,6 +60,22 @@ class Juego:
         self.play_button = PlayButton(play_button, pause_button, 10, 575)
         self.sound_button = MuteButton(music_on_button, music_off_button, 100, 575)
 #        self.close_button = Button ()
+
+        if speed == "Media":
+            self.clock_speed = 100
+        else:
+            self.clock_speed = 1000
+
+        if difficulty == "Media":
+            self.lifes = 50
+            self.gems = 1000
+        elif difficulty == "Alta":
+            self.lifes = 25
+            self.gems = 1000
+        else:
+            self.lifes = 5
+            self.gems = 2000
+
 
 
     def generate_waves(self):
@@ -88,7 +102,7 @@ class Juego:
         run = True
         clock = pygame.time.Clock()
         while run:
-            clock.tick(1200)
+            clock.tick(self.clock_speed)
 
             if self.pause == False:
             # oleadas de enemigos

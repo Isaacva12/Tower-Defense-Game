@@ -110,7 +110,8 @@ class Ui_TowerDefenseMainMenu(object):
 
 
     def run_game(self):
-        j = Juego()
+        self.ui = Ui_TowerDefenseAjustesPartida()
+        j = Juego(self.ui.speed, self.ui.difficulty)
         j.run()
 
     def closescr (self, Form):
