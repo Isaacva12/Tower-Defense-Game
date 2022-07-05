@@ -26,13 +26,14 @@ music_on_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons
 music_off_button= pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_off.png")), (70, 70))
 close_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/close.png")), (70, 70))
 
+# cargar la música
 pygame.mixer.music.load(os.path.join("buttons_symbols", "music1.mp3"))
 
-
+# definir colocación de torres en el mapa
 towers_names = ["Tower1", "Tower2", "Tower3"]
 areas_permitidas = [(27, 259), (266, 498), (446, 403), (670, 518), (653, 465), (911, 525), (35, 68), (606, 153), (414, 130), (588, 267), (740, 21), (783, 84), (745, 286), (1169, 390), (1027, 348), (1169, 603)]
 
-# las oleadas de enemigos se definen por numero de enemigos
+# oleadas de enemigos definidas por numero de enemigos [Enemy1(), Enemy2(), Enemy3()]
 waves = [[25, 5, 0], [50, 10, 2], [10, 50, 5], [75, 50, 25], [0, 75, 50], [100, 100, 50], [150, 100, 50]]
 
 class Juego:
@@ -60,6 +61,7 @@ class Juego:
         self.sound_button = MuteButton(music_on_button, music_off_button, 100, 575)
 #        self.close_button = Button ()
 
+        # Cambiar modo de juego segun la velocidad y dificultad del menu ajustes
         if speed == "Media":
             self.clock_speed = 100
         else:
@@ -96,6 +98,10 @@ class Juego:
                     self.current_wave[e] = self.current_wave[e] - 1
                     break
     def run(self):
+        """
+        Función básica del juego (main)
+        :return: surface
+        """
         pygame.mixer.music.play(loops=-1)
         run = True
         clock = pygame.time.Clock()
@@ -141,9 +147,7 @@ class Juego:
                     run = False
 
                 if event.type == pygame.MOUSEBUTTONUP:
-                    # escoger y mover torres
-                    #print(pos)
-
+                    # escoger y mover torres por el mapa
                     if self.object_moving:
                         allowed = True
                         for tower in self.towers[:]:
@@ -155,9 +159,6 @@ class Juego:
                                 self.towers.append(self.object_moving)
                             self.object_moving.moving = False
                             self.object_moving = None
-
-
-
 
                     else: 
                         #mirar si esta en play o pausa
@@ -173,7 +174,7 @@ class Juego:
                             else:
                                 pygame.mixer.music.pause()
 
-                        # mirar si se compra una torre
+                        # mirar si se compra una torre del menú
                         button_buy = self.menu.selected(pos[0], pos[1])
                         if button_buy:
                             cost_tower = self.menu.get_tower_cost(button_buy)
@@ -181,7 +182,7 @@ class Juego:
                                 self.gems -= cost_tower
                                 self.add_towers(button_buy)
 
-                        # mirar si se clica una torre
+                        # mirar si se clica una torre del menú
                         button_clicked = None
                         if self.selected_tower:
 
@@ -200,8 +201,9 @@ class Juego:
                                     self.selected_tower = tower
                                 else:
                                     tower.selected = False
+
+            # terminar loop y eliminar enemigos y vidas
             if not(self.pause):
-                #terminar loop y eliminar enemigos y vidas
                 to_del = []
                 for enemy in self.enemies:
                     enemy.move()
@@ -225,6 +227,10 @@ class Juego:
         pygame.quit()
 
     def draw(self):
+        """
+        dibujar los elementos del juego
+        :return: surface
+        """
         self.win.blit(self.background, (0,0))
         #for p in self.clicks:
          #   pygame.draw.circle(self.win, (255,0,0), (p[0], p[1]), 5, 0) #se puede borrar era para crear camino enemigos
@@ -269,7 +275,7 @@ class Juego:
         # dibujar boton jugar
         self.play_button.draw(self.win)
 
-        # draw wave
+        # dibujar oleada
         text = self.text_font.render("Wave " + str(self.wave + 1), 1, (255,255,255))
         self.win.blit(text, (300, 18))
 
@@ -281,6 +287,11 @@ class Juego:
         pygame.display.update()
 
     def add_towers(self, name):
+        """
+        Añadir las torres en el mapa
+        :param name: str
+        :return: surface
+        """
         x,y = pygame.mouse.get_pos()
         list_names = ["buy_tower1", "buy_tower2", "buy_tower3"]
         list_towers = [Tower1(x,y), Tower2(x,y), Tower3(x,y)]

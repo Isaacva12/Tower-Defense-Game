@@ -4,6 +4,7 @@ from .towers import Towers
 
 images = []
 
+# carga las imagenes de cada torre para dar mobilidad
 for im in range(8):
     add_str = "0" + str(im)
     images.append(

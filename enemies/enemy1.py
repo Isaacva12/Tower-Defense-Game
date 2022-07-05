@@ -4,6 +4,7 @@ from .enemies import Enemies
 
 images = []
 
+# recorre las imagenes del enemigo para dar mobilidad
 for x in range(20):
     add_str = str(x)
     if x < 10:

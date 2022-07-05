@@ -30,9 +30,18 @@ class Button:
             return False
 
     def draw(self, win):
+        """
+        Dibuja la imagen del boton
+        :param win: surface
+        :return: None
+        """
         win.blit(self.image, (self.x, self.y))
 
     def update(self):
+        """
+        Recarga el botón en caso de cambio de pausa a play o de sonio a mute
+        :return: None
+        """
         self.x = self.menu.x + 10
         self.y = self.menu.y + 5
 
@@ -50,6 +59,11 @@ class MuteButton(Button):
         self.muted = False
 
     def draw(self, win):
+        """
+        Dibuja los botones de musica on o off
+        :param win: surface
+        :return: None
+        """
         if self.muted:
             win.blit(self.music_off, (self.x, self.y))
         else:
@@ -69,6 +83,9 @@ class BuyButton(Button):
         self.cost = cost
 
 class PlayButton(Button):
+    """
+    Botones para parar/iniciar oleada
+    """
     def __init__(self, play_image, pause_image, x, y):
         self.play = play_image
         self.pause = pause_image
@@ -79,6 +96,11 @@ class PlayButton(Button):
         self.paused = True
 
     def draw(self, win):
+        """
+        Dibuja los botones play/pause
+        :param win: surface
+        :return: None
+        """
         if self.paused:
             win.blit(self.play, (self.x, self.y))
         else:
@@ -106,7 +128,7 @@ class Menu:
     def get_object_cost(self):
         """
         da el coste de subir de nivel la torre
-        :return:
+        :return: int
         """
         return self.towers_cost[self.object.level - 1]
 

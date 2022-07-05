@@ -32,6 +32,11 @@ class Towers():
 
 
     def draw_placement (self,win):
+        """
+        Dibuja rango de colocacion alrededor de la torre
+        :param win: surface
+        :return: None
+        """
         surface = pygame.Surface((self.range*4, self.range*4), pygame.SRCALPHA, 32)
         pygame.draw.circle(surface, self.set_color, (45,45), 45, 0)
 
@@ -59,6 +64,12 @@ class Towers():
         self.range = r
 
     def draw(self, win):
+        """
+        Dibuja la torre, el menu y el rango de disparo de la torre
+        :param win: surface
+        :return: None
+        """
+        # dibujar torre
         if self.inRange and not self.moving:
             self.animation_count += 1
             if self.animation_count >= len(self.images) * 5:
@@ -98,13 +109,14 @@ class Towers():
                 self.inRange = True
                 enemy_closest.append(enemy)
 
+        # ataca el enemigo que esta más cerca de la torre
         enemy_closest.sort(key=lambda x: x.x)
         if len(enemy_closest) > 0:
             first_en = enemy_closest[0]
-            if self.animation_count == 25:
+            if self.animation_count == 25: #golpea el enemigo una vez se ha hecho un loop de 25 imagenes de la torre
                 if first_en.hit(self.damage) == True:
                     gems = first_en.gems
-                    enemies.remove(first_en)
+                    enemies.remove(first_en) #elimina el enemigo si se queda sin via
         return gems
 
     def sell(self):
@@ -132,13 +144,10 @@ class Towers():
         return self.menu.get_object_cost()
 
     def space_match (self, other_tower):
-
         """
         evita que se puedan poner dos torres en el mismo sitio generando un radio alrededor de la torre
         :return: bool
-
         """
-
         x2 = other_tower.x
         y2 = other_tower.y
         dis = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
@@ -146,8 +155,6 @@ class Towers():
             return False
         else:
             return True
-
-
 
     def move(self, x, y):
         """

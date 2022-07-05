@@ -47,7 +47,7 @@ class Enemies():
 
     def collide(self, x, y):
         """
-        Devuelve si el enemigo choca
+        Devuelve si la posicion toca al enemigo
         :param x: int
         :param y: int
         :return: Bool
@@ -59,7 +59,7 @@ class Enemies():
 
     def move(self):
         """
-        Mover los enemigos
+        Mover los enemigospor el camino definido con los puntos
         :return: None
         """
         self.animation_count += 1
