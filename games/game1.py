@@ -15,14 +15,15 @@ import random
 pygame.init()
 lifes_image = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols", "heart-icon2.png")), (40,40))
 gems_image = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols", "gemas.png")), (40,40))
-background_menu = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols", "wood_menu.png")), (150, 250))
+background_menu = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols", "bg.png")), (150, 270))
+upper_menu = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols", "bg.png")), (550, 80))
 buy_tower1 = pygame.transform.scale(pygame.image.load(os.path.join("towers/1/shoot_002.png")), (70, 70))
 buy_tower2 = pygame.transform.scale(pygame.image.load(os.path.join("towers/2/fire_002.png")), (70, 70))
 buy_tower3 = pygame.transform.scale(pygame.image.load(os.path.join("towers/3/stone_002.png")), (70, 70))
 play_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/play.png")), (70, 70))
 pause_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/pause.png")), (70, 70))
-music_on_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_on.jpg")), (70, 70))
-music_off_button= pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_off.jpg")), (70, 70))
+music_on_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_on.png")), (70, 70))
+music_off_button= pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_off.png")), (70, 70))
 
 pygame.mixer.music.load(os.path.join("buttons_symbols", "music1.mp3"))
 
@@ -49,7 +50,7 @@ class Juego:
         self.menu.add_buttons_towers(buy_tower2, "buy_tower2", 600)
         self.menu.add_buttons_towers(buy_tower3, "buy_tower3", 800)
         self.timer = time.time()
-        self.text = pygame.font.Font("freesansbold.ttf", 32)
+        self.text_font = pygame.font.Font("freesansbold.ttf", 32)
         self.selected_tower = None
         self.object_moving = None
         self.wave = 0
@@ -229,16 +230,20 @@ class Juego:
         for enemy in self.enemies:
             enemy.draw(self.win)
 
+
+        #dibujar tablero superior
+        self.win.blit(upper_menu, (-100,-10))
+
         #dibujar vidas
         life = lifes_image
         self.win.blit(life, (20, 10))
-        value_life = self.text.render(str(self.lifes), 1, (255,255,255))
+        value_life = self.text_font.render(str(self.lifes), 1, (255,255,255))
         self.win.blit(value_life, (65,18))
 
         #dibujar gemas
         gems = gems_image
         self.win.blit(gems, (120, 10))
-        value_gems = self.text.render(str(self.gems), 1, (255, 255, 255))
+        value_gems = self.text_font.render(str(self.gems), 1, (255, 255, 255))
         self.win.blit(value_gems, (170, 18))
 
         #dibujar torre moviendose
@@ -251,6 +256,9 @@ class Juego:
         # dibujar boton jugar
         self.play_button.draw(self.win)
 
+        # draw wave
+        text = self.text_font.render("Wave " + str(self.wave), 1, (255,255,255))
+        self.win.blit(text, (300, 18))
 
         self.sound_button.draw(self.win)
 
