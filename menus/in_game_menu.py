@@ -36,6 +36,25 @@ class Button:
         self.x = self.menu.x + 10
         self.y = self.menu.y + 5
 
+class MuteButton(Button):
+    """
+    Menu para quitar la música
+    """
+    def __init__(self, music_on_image, music_off_image, x, y):
+        self.music_on = music_on_image
+        self.music_off = music_off_image
+        self.x = x
+        self.y = y
+        self.width = self.music_on.get_width()
+        self.height = self.music_on.get_height()
+        self.muted = False
+
+    def draw(self, win):
+        if self.muted:
+            win.blit(self.music_off, (self.x, self.y))
+        else:
+            win.blit(self.music_on, (self.x, self.y))
+
 class BuyButton(Button):
     """
     Botones para menu de compra

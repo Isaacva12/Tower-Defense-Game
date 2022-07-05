@@ -8,7 +8,7 @@ from enemies.enemy3 import Enemy3
 from towers.tower1 import Tower1
 from towers.tower2 import Tower2
 from towers.tower3 import Tower3
-from menus.in_game_menu import BuyMenu, PlayButton
+from menus.in_game_menu import *
 import time
 import random
 
@@ -21,6 +21,12 @@ buy_tower2 = pygame.transform.scale(pygame.image.load(os.path.join("towers/2/fir
 buy_tower3 = pygame.transform.scale(pygame.image.load(os.path.join("towers/3/stone_002.png")), (70, 70))
 play_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/play.png")), (70, 70))
 pause_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/pause.png")), (70, 70))
+music_on_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_on.jpg")), (70, 70))
+music_off_button= pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_off.jpg")), (70, 70))
+
+pygame.mixer.music.load(os.path.join("buttons_symbols", "music1.mp3"))
+
+
 towers_names = ["Tower1", "Tower2", "Tower3"]
 areas_permitidas = [(27, 259), (266, 498), (446, 403), (670, 518), (653, 465), (911, 525), (35, 68), (606, 153), (414, 130), (588, 267), (740, 21), (783, 84), (745, 286), (1169, 390), (1027, 348), (1169, 603)]
 # las oleadas de enemigos se definen por numero de enemigos
@@ -49,7 +55,9 @@ class Juego:
         self.wave = 0
         self.current_wave = waves[self.wave][:]
         self.pause = True
+        self.muted = False
         self.play_button = PlayButton(play_button, pause_button, 10, 575)
+        self.sound_button = MuteButton(music_on_button, music_off_button, 100, 575)
 
 
     def generate_waves(self):
@@ -72,6 +80,7 @@ class Juego:
                     self.current_wave[e] = self.current_wave[e] - 1
                     break
     def run(self):
+        pygame.mixer.music.play(loops=-1)
         run = True
         clock = pygame.time.Clock()
         while run:
@@ -140,6 +149,14 @@ class Juego:
                             self.pause = not(self.pause)
                             self.play_button.paused = self.pause
 
+                        if self.sound_button.click(pos[0], pos[1]):
+                            self.muted = not(self.muted)
+                            self.sound_button.muted = self.muted
+                            if not self.muted:
+                                pygame.mixer.music.unpause()
+                            else:
+                                pygame.mixer.music.pause()
+
                         # mirar si se compra una torre
                         button_buy = self.menu.selected(pos[0], pos[1])
                         if button_buy:
@@ -151,8 +168,10 @@ class Juego:
                         # mirar si se clica una torre
                         button_clicked = None
                         if self.selected_tower:
+
                             button_clicked = self.selected_tower.menu.selected(pos[0], pos[1])
                             if button_clicked:
+                                self.selected_tower.draw(self.win)
                                 if button_clicked == "Upgrade":
                                     cost = self.selected_tower.get_upgrade_cost()
                                     if self.gems >= cost:
@@ -204,6 +223,8 @@ class Juego:
                 tower.draw_placement(self.win)
             self.object_moving.draw_placement(self.win)
 
+        
+
         #dibujar enemigos
         for enemy in self.enemies:
             enemy.draw(self.win)
@@ -229,6 +250,10 @@ class Juego:
 
         # dibujar boton jugar
         self.play_button.draw(self.win)
+
+
+        self.sound_button.draw(self.win)
+
 
         pygame.display.update()
 
