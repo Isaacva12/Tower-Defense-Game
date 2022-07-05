@@ -7,8 +7,7 @@
 #j = Juego()
 #j.run()
 
-
-from menus.Qt_GUI.Menu_Principal import Ui_TowerDefenseMainMenu
+from menus.GUI_Menu import Ui_TowerDefenseMainMenu
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 if __name__ == "__main__":
