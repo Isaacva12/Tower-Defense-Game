@@ -33,7 +33,7 @@ towers_names = ["Tower1", "Tower2", "Tower3"]
 areas_permitidas = [(27, 259), (266, 498), (446, 403), (670, 518), (653, 465), (911, 525), (35, 68), (606, 153), (414, 130), (588, 267), (740, 21), (783, 84), (745, 286), (1169, 390), (1027, 348), (1169, 603)]
 
 # las oleadas de enemigos se definen por numero de enemigos
-waves = [[25, 0, 0], [50, 0, 0], [75, 50, 0], [100, 75, 50], [200, 100, 150]]
+waves = [[25, 5, 0], [50, 10, 2], [10, 50, 5], [75, 50, 25], [0, 75, 50], [100, 100, 50], [150, 100, 50]]
 
 class Juego:
     def __init__ (self, speed, difficulty):
@@ -270,7 +270,7 @@ class Juego:
         self.play_button.draw(self.win)
 
         # draw wave
-        text = self.text_font.render("Wave " + str(self.wave), 1, (255,255,255))
+        text = self.text_font.render("Wave " + str(self.wave + 1), 1, (255,255,255))
         self.win.blit(text, (300, 18))
 
 #       self.close_button.draw(self.win)

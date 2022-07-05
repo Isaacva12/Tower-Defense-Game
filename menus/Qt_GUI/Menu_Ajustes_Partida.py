@@ -15,10 +15,10 @@ from games.game1 import Juego
 
 class Ui_TowerDefenseAjustesPartida(object):
     def __init__(self):
-        self.speed = speed
-        self.difficulty = difficulty
-        self.map = mapa
-        self.mode = mode
+        self.speed = "Media"
+        self.difficulty = "Media"
+        #self.map = map
+        #self.mode = mode
 
     def setupUi(self, MainWindow):
 
@@ -137,7 +137,6 @@ class Ui_TowerDefenseAjustesPartida(object):
         #Button action
         self.guardar_config_button.clicked.connect(self.save_settings)
         self.backButton.clicked.connect(lambda:self.closescr(MainWindow))
-        
 
 
     def closescr (self, Form):

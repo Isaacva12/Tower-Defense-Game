@@ -16,7 +16,7 @@ class Enemy1(Enemies):
         super().__init__()
         self.gems = 4
         self.images = images[:]
-        self.max_health = 2
+        self.max_health = 3
         self.health = self.max_health
 
 
