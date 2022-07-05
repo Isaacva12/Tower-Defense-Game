@@ -37,7 +37,6 @@ waves = [[25, 0, 0], [50, 0, 0], [75, 50, 0], [100, 75, 50], [200, 100, 150]]
 
 class Juego:
     def __init__ (self, speed, difficulty):
-
         print (speed, difficulty)
         self.width = 1200
         self.height = 650
@@ -84,7 +83,6 @@ class Juego:
         :return: enemy
         """
         if sum(self.current_wave) == 0:
-
             if len(self.enemies) == 0:
                 self.wave += 1
                 self.current_wave = waves[self.wave]
@@ -241,8 +239,6 @@ class Juego:
                 tower.draw_placement(self.win)
             self.object_moving.draw_placement(self.win)
 
-        
-
         #dibujar enemigos
         for enemy in self.enemies:
             enemy.draw(self.win)
@@ -277,7 +273,7 @@ class Juego:
         text = self.text_font.render("Wave " + str(self.wave), 1, (255,255,255))
         self.win.blit(text, (300, 18))
 
-#        self.close_button.draw(self.win)
+#       self.close_button.draw(self.win)
 
         self.sound_button.draw(self.win)
 

@@ -14,8 +14,7 @@ from games.game1 import Juego
 
 
 class Ui_TowerDefenseAjustesPartida(object):
-
-def __init__(self):
+    def __init__(self):
         self.speed = speed
         self.difficulty = difficulty
         self.map = mapa
