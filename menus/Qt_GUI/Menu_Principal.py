@@ -9,8 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from .Menu_Ajustes import Ui_TowerDefenseMenuAjustes
-from .Menu_Nueva_Partida import Ui_TowerDefenseMenuNuevaPartida
+from .Menu_Ajustes_Partida import Ui_TowerDefenseAjustesPartida
+from games.game1 import Juego
 
 class Ui_TowerDefenseMainMenu(object):
     def setupUi(self, TowerDefenseMainMenu):
@@ -104,25 +104,23 @@ class Ui_TowerDefenseMainMenu(object):
         #Button action
 
         self.salir_button.clicked.connect(lambda:self.closescr(TowerDefenseMainMenu))
-        self.ajustes_button.clicked.connect(self.menu_ajustes)
-        self.jugar_button.clicked.connect(self.menu_nueva_partida)
+        self.ajustes_button.clicked.connect(self.menu_ajustes_partida)
+        self.jugar_button.clicked.connect(lambda:self.closescr(TowerDefenseMainMenu))
+        self.jugar_button.clicked.connect(self.run_game)
+
+
+    def run_game(self):
+        j = Juego()
+        j.run()
 
     def closescr (self, Form):
         Form.hide()
 
-    def menu_ajustes (self):
-        
-        self.menu_ajustes = QtWidgets.QMainWindow()
-        self.ui = Ui_TowerDefenseMenuAjustes()
-        self.ui.setupUi(self.menu_ajustes)
-        self.menu_ajustes.show()
-
-
-    def menu_nueva_partida (self):
-        self.menu_nueva_partida = QtWidgets.QMainWindow()
-        self.ui = Ui_TowerDefenseMenuNuevaPartida()
-        self.ui.setupUi(self.menu_nueva_partida)
-        self.menu_nueva_partida.show()
+    def menu_ajustes_partida (self):
+        self.menu_ajustes_partida = QtWidgets.QMainWindow()
+        self.ui = Ui_TowerDefenseAjustesPartida()
+        self.ui.setupUi(self.menu_ajustes_partida)
+        self.menu_ajustes_partida.show()
 
 
     def retranslateUi(self, TowerDefenseMainMenu):

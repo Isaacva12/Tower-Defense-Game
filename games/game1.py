@@ -24,6 +24,7 @@ play_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_sym
 pause_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/pause.png")), (70, 70))
 music_on_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_on.png")), (70, 70))
 music_off_button= pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/music_off.png")), (70, 70))
+close_button = pygame.transform.scale(pygame.image.load(os.path.join("buttons_symbols/close.png")), (70, 70))
 
 pygame.mixer.music.load(os.path.join("buttons_symbols", "music1.mp3"))
 
@@ -36,6 +37,7 @@ areas_permitidas = [(27, 259), (266, 498), (446, 403), (670, 518), (653, 465), (
 waves = [[25, 0, 0], [50, 0, 0], [75, 50, 0], [100, 75, 50], [200, 100, 150]]
 
 class Juego:
+    #def __init__ (self, speed, difficulty, map, mode):
     def __init__(self):
         self.width = 1200
         self.height = 650
@@ -59,6 +61,7 @@ class Juego:
         self.muted = False
         self.play_button = PlayButton(play_button, pause_button, 10, 575)
         self.sound_button = MuteButton(music_on_button, music_off_button, 100, 575)
+#        self.close_button = Button ()
 
 
     def generate_waves(self):
@@ -259,6 +262,8 @@ class Juego:
         # draw wave
         text = self.text_font.render("Wave " + str(self.wave), 1, (255,255,255))
         self.win.blit(text, (300, 18))
+
+#        self.close_button.draw(self.win)
 
         self.sound_button.draw(self.win)
 

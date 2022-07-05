@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from games.game1 import Juego
 
-class Ui_TowerDefenseMenuNuevaPartida(object):
+class Ui_TowerDefenseAjustesPartida(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(580, 520)
@@ -23,7 +23,7 @@ class Ui_TowerDefenseMenuNuevaPartida(object):
         self.fondoajustes.setText("")
         self.fondoajustes.setObjectName("fondoajustes")
         self.tituloajustes = QtWidgets.QLabel(self.centralwidget)
-        self.tituloajustes.setGeometry(QtCore.QRect(180, 30, 241, 71))
+        self.tituloajustes.setGeometry(QtCore.QRect(180, 30, 270, 71))
         font = QtGui.QFont()
         font.setFamily("Algerian")
         font.setPointSize(28)
@@ -86,14 +86,14 @@ class Ui_TowerDefenseMenuNuevaPartida(object):
         self.agresividadBox.addItem("")
         self.agresividadBox.addItem("")
         self.agresividadBox.addItem("")
-        self.iniciar_juego_button = QtWidgets.QPushButton(self.centralwidget)
-        self.iniciar_juego_button.setGeometry(QtCore.QRect(240, 300, 131, 41))
+        self.guardar_config_button = QtWidgets.QPushButton(self.centralwidget)
+        self.guardar_config_button.setGeometry(QtCore.QRect(240, 300, 131, 41))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setBold(True)
         font.setWeight(75)
-        self.iniciar_juego_button.setFont(font)
-        self.iniciar_juego_button.setObjectName("iniciar_juego_button")
+        self.guardar_config_button.setFont(font)
+        self.guardar_config_button.setObjectName("guardar_config_button")
         self.label_pantalla_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_pantalla_2.setGeometry(QtCore.QRect(210, 250, 71, 20))
         font = QtGui.QFont()
@@ -126,34 +126,32 @@ class Ui_TowerDefenseMenuNuevaPartida(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         #Button action
-
+        self.guardar_config_button.clicked.connect(self.save_settings)
         self.backButton.clicked.connect(lambda:self.closescr(MainWindow))
-        self.iniciar_juego_button.clicked.connect(self.run_game())
 
     def closescr (self, Form):
         Form.hide()
 
-    def run_game(self):
-        #self.closescr(MainWindow)
-        j = Juego()
-        j.run()
+
+    def save_settings(self):
+        pass
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.tituloajustes.setText(_translate("MainWindow", "NUEVA PARTIDA"))
+        self.tituloajustes.setText(_translate("MainWindow", "AJUSTES PARTIDA"))
         self.label_pantalla.setText(_translate("MainWindow", "Mapa"))
         self.label_velocidad.setText(_translate("MainWindow", "Velocidad"))
         self.label_agresividad.setText(_translate("MainWindow", "Dificultad"))
         self.pantallaBox.setItemText(0, _translate("MainWindow", "Arena 1"))
-        self.pantallaBox.setItemText(1, _translate("MainWindow", "Arena 2"))
         self.velocidadBox.setItemText(0, _translate("MainWindow", "Media"))
         self.velocidadBox.setItemText(1, _translate("MainWindow", "Rápida"))
         self.label_velocidad_2.setText(_translate("MainWindow", "Configuración de la partida"))
         self.agresividadBox.setItemText(0, _translate("MainWindow", "Media"))
         self.agresividadBox.setItemText(1, _translate("MainWindow", "Alta"))
         self.agresividadBox.setItemText(2, _translate("MainWindow", "Experto"))
-        self.iniciar_juego_button.setText(_translate("MainWindow", "INICIAR"))
+        self.guardar_config_button.setText(_translate("MainWindow", "GUARDAR"))
         self.label_pantalla_2.setText(_translate("MainWindow", "Modo"))
         self.pantallaBox_2.setItemText(0, _translate("MainWindow", "Supervivencia"))
         self.menuTOWER_DEFENSE_GAME.setTitle(_translate("MainWindow", " "))
